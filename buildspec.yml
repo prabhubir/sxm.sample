@@ -7,7 +7,7 @@ phases:
       - yarn
   pre_build:
     commands:
-      - echo e pre_build phase...
+      - echo pre_build phase...
   build:
     commands:
       - echo Build started on `date`
@@ -15,5 +15,5 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - yarn workspace string-server cdk deploy
+  
 
