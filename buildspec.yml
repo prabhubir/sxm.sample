@@ -1,19 +1,22 @@
 version: 0.2
-
 phases:
   install:
     commands:
       - npm install -g yarn
+      - git config --global credential.helper '!aws codecommit credential-helper $@'
+      - git config --global credential.UseHttpPath true
       - yarn
   pre_build:
     commands:
-      - echo pre_build phase...
+      - git rev-parse HEAD
+      - git pull origin master
   build:
     commands:
-      - echo Build started on `date`
-      - ./gradlew build && yarn install && yarn build
+      - yarn run build
+      - yarn run deploy
   post_build:
     commands:
-      - echo Build completed on `date`
-  
-
+      - echo 'Finished.'
+cache:
+  paths:
+    - 'node_modules/**/*'
