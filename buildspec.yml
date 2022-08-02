@@ -1,22 +1,18 @@
 version: 0.2
+
 phases:
   install:
-    commands:
-      - npm install -g yarn
-      - git config --global credential.helper '!aws codecommit credential-helper $@'
-      - git config --global credential.UseHttpPath true
-      - yarn
-  pre_build:
-    commands:
-      - git rev-parse HEAD
-      - git pull origin master
+    runtime-versions:
+       nodejs: 14
   build:
     commands:
-      - yarn run build
-      - yarn run deploy
-  post_build:
-    commands:
-      - echo 'Finished.'
+      - yarn config set cache-folder /root/.yarn-cache
+      - yarn install --frozen-lockfile
+      - ...other build commands go here
+
 cache:
   paths:
+    - '/root/.yarn-cache/**/*'
     - 'node_modules/**/*'
+    # This third entry is only if you're using monorepos (under the packages folder)
+    # - 'packages/**/node_modules/**/*'
